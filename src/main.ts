@@ -1,4 +1,4 @@
-import { HttpAdapterHost, NestFactory,  Reflector } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory, Reflector } from '@nestjs/core';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
@@ -23,6 +23,7 @@ async function bootstrap() {
     .setTitle('Cats example')
     .setDescription('The cats API description')
     .setVersion('1.0')
+    .addBearerAuth()
     .addTag('cats')
     .build();
   const document = SwaggerModule.createDocument(app, config);
