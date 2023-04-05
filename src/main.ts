@@ -1,5 +1,5 @@
-import { HttpAdapterHost, NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
+import { HttpAdapterHost, NestFactory,  Reflector } from '@nestjs/core';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { PrismaClientExceptionFilter } from './prisma/prisma-client-exception.filter';
@@ -8,10 +8,16 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   /**
-   *   Pipes for validations
-   *   whitelist: true ==> Strip unnecessary properties from client requests
+   * Pipes for validations
+   * whitelist: true ==> Strip unnecessary properties from client requests
    */
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+
+  /**
+   * Use the ClassSerializerInterceptor to remove a field from the response
+   */
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+
 
   const config = new DocumentBuilder()
     .setTitle('Cats example')
