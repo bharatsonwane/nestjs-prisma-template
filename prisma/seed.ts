@@ -11,6 +11,7 @@ async function main() {
 
     const passwordSabin = await bcrypt.hash('password-sabin', roundsOfHashing);
     const passwordAlex = await bcrypt.hash('password-alex', roundsOfHashing);
+    const passwordBharat = await bcrypt.hash('Bharat@123', roundsOfHashing);
 
     const user1 = await prisma.user.upsert({
         where: { email: 'sabin@adams.com' },
@@ -33,6 +34,18 @@ async function main() {
             email: 'alex@ruheni.com',
             name: 'Alex Ruheni',
             password: passwordAlex,
+        },
+    });
+
+    const user3 = await prisma.user.upsert({
+        where: { email: 'bharatrsonwane@gmail.com' },
+        update: {
+            password: passwordSabin,
+        },
+        create: {
+            email: 'bharatrsonwane@gmail.com',
+            name: 'Bharat Sonwane',
+            password: passwordBharat,
         },
     });
 
@@ -79,7 +92,7 @@ async function main() {
         },
     });
 
-    console.log({ user1, user2, post1, post2, post3 });
+    console.log({ user1, user2, user3, post1, post2, post3 });
 }
 
 // execute the main function

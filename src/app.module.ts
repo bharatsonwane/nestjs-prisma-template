@@ -7,8 +7,8 @@ import { AuthModule } from './auth/auth.module';
 
 
 @Module({
-  imports: [ArticlesModule, UsersModule, AuthModule],
+  imports: [AuthModule, UsersModule, ArticlesModule,],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
